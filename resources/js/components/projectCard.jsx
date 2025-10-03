@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "@inertiajs/react";
 
 const ProjectCard = ({
   image,
@@ -6,7 +7,7 @@ const ProjectCard = ({
   description,
   tags = [],
   github = null,
-  link = null,
+  route = null, // 👈 Cambié "link" por "route" para diferenciar interno de externo
   pageTitle = null,
   himagelg = "auto",
   himagexl = "auto",
@@ -16,24 +17,7 @@ const ProjectCard = ({
       {/* Imagen + ventana navegador */}
       <div className="w-full md:w-1/2 ">
         <div className="relative w-full h-64 md:h-96 lg:h-104 overflow-hidden rounded-lg shadow-lg group-hover:scale-[1.02] transition-transform duration-300 border border-gray-900 bg-blue-200 sm:h-104 min-h-[310px]">
-
-          {/* Iconos de escritorio al fondo */}
-          <div className="absolute top-4 left-1 flex flex-col gap-5 text-center text-sm text-gray-800 font-semibold z-0">
-            <div className="flex flex-col items-center">
-              <img src="/images/desk/carpeta-mac-48.png" alt="Files-mac" className="w-12 h-12" />
-              <span>Proyectos</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <img src="/images/desk/notes_icon.svg" alt="Notes-mac" className="w-12 h-12" />
-              <span>Notas</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <img src="/images/desk/discord.png" alt="Discord" className="w-12 h-12" />
-              <span>Discord</span>
-            </div>
-          </div>
-
-          {/* Contenido de ventana navegador */}
+          {/* Contenido ventana */}
           <div className="px-8 py-8 relative z-10 p-30">
             <div className="overflow-hidden rounded-xl bg-gray-800 shadow-md w-full max-w-3xl mx-auto">
               {/* Barra navegador */}
@@ -48,7 +32,6 @@ const ProjectCard = ({
                   <span className="text-sm text-gray-300 truncate">{pageTitle}</span>
                   <span className="text-gray-500 ml-2 text-sm">x</span>
                 </div>
-                <div className="pl-2 text-gray-400 text-lg">+</div>
               </div>
 
               {/* Imagen principal */}
@@ -62,18 +45,6 @@ const ProjectCard = ({
               </div>
             </div>
           </div>
-
-          {/* Barra de tareas al fondo */}
-          <div className="absolute bottom-0 w-full h-12 bg-gray-800"></div>
-          <div className="absolute bottom-0 left-0 w-full h-12 bg-gray-800 flex justify-center items-center px-4 gap-6 z-0">
-            <div className="flex items-center gap-6 bg-gray-800 px-6 py-2 rounded-t-xl z-20">
-              <img src="/images/desk/spotify.svg" alt="Spotify" className="w-6 h-6" />
-              <img src="/images/desk/safari.svg" alt="Safari" className="w-8 h-8 flex items-center gap-2 text-gray-400 bg-blue-200/20 rounded-lg p-1" />
-              <img src="/images/desk/visual-studio-code.svg" alt="VSCode" className="w-6 h-6" />
-              <img src="/images/desk/app-store.svg" alt="App Store" className="w-6 h-6" />
-              <img src="/images/desk/gmail-icon.svg" alt="Gmail" className="w-6 h-6" />
-            </div>
-          </div>
         </div>
       </div>
 
@@ -82,7 +53,10 @@ const ProjectCard = ({
         <h3 className="text-2xl font-bold text-white mb-2">{title}</h3>
         <ul className="flex flex-wrap mb-4 gap-2">
           {tags.map((tag, i) => (
-            <li key={i} className={`flex items-center gap-2 text-xs px-3 py-1 rounded-full ${tag.class}`}>
+            <li
+              key={i}
+              className={`flex items-center gap-2 text-xs px-3 py-1 rounded-full ${tag.class}`}
+            >
               {tag.icon && <img src={`/${tag.icon}`} alt={tag.name} className="w-6 h-6" />}
               {tag.name}
             </li>
@@ -90,6 +64,7 @@ const ProjectCard = ({
         </ul>
 
         <p className="text-gray-400">{description}</p>
+
         <div className="flex mt-4 gap-4">
           {github && (
             <a
@@ -101,15 +76,13 @@ const ProjectCard = ({
               <img src="/images/logos/github.svg" alt="Github" className="w-6 h-6" /> Código
             </a>
           )}
-          {link && (
-            <a
-              href={link}
-              target="_blank"
-              rel="noreferrer"
+          {route && (
+            <Link
+              href={route}
               className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded flex items-center gap-2"
             >
-              <i className="fas fa-external-link-alt"></i> Preview
-            </a>
+              <i className="fas fa-external-link-alt"></i> Ver Página
+            </Link>
           )}
         </div>
       </div>
