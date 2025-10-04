@@ -17,15 +17,15 @@ const ProjectsSection = () => {
         <div className="flex flex-col gap-16">
           <ProjectCard
             pageTitle="Button Lovers"
-            image="images/projects/eclipse.png"
+            image="images/projects/ButtonLovers.png"
             himagelg="70"
             himagexl="auto"
             title="Inventario de Botones"
             description="Sistema de gestión para una empresa de botones. Incluye control de inventario, CRUD de productos, seguimiento de movimientos, y un dashboard con estadísticas."
             tags={[
-              { name: "Laravel", class: "bg-red-600 text-white", icon: "images/logos/laravel.svg" },
-              { name: "React", class: "bg-sky-500 text-white", icon: "images/logos/react.svg" },
-              { name: "TailwindCSS", class: "bg-cyan-500 text-white", icon: "images/logos/tailwind.svg" },
+              { name: "Laravel", class: "bg-red-900 text-white", icon: "images/logos/laravel.svg" },
+              { name: "React", class: "bg-blue-400 text-white", icon: "images/logos/react.png" },
+              { name: "TailwindCSS", class: "bg-cyan-700 text-white", icon: "images/logos/tailwind.png" },
             ]}
             github="https://github.com/chechojgb/inventario-botones"
             route='/dashboardBL'

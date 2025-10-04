@@ -78,23 +78,6 @@ export default function TechStack() {
         <i className="fas fa-chevron-down text-blue-400 text-xl"></i>
       </div>
 
-      {/* Animaciones locales */}
-      <style jsx>{`
-        @keyframes glow {
-          0%,
-          100% {
-            filter: grayscale(100%) brightness(1);
-            opacity: 0.8;
-          }
-          50% {
-            filter: grayscale(0%) brightness(1.6);
-            opacity: 1;
-          }
-        }
-        .animate-glow {
-          animation: glow 6s ease-in-out infinite alternate;
-        }
-      `}</style>
     </section>
   );
 }

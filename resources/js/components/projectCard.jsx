@@ -79,13 +79,18 @@ const ProjectCard = ({
           {route && (
             <Link
               href={route}
-              className="text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded flex items-center gap-2"
+              className="relative inline-flex items-center gap-2 px-4 py-2 rounded text-white font-semibold overflow-hidden"
             >
-              <i className="fas fa-external-link-alt"></i> Ver Página
+              <span className="absolute inset-0 bg-gradient-to-r from-pink-500 via-yellow-400 to-cyan-500 animate-gradient-x"></span>
+              <span className="absolute inset-0 bg-black opacity-30"></span> 
+              <span className="relative z-10 flex items-center gap-2">
+                <i className="fas fa-external-link-alt"></i> Ver Página
+              </span>
             </Link>
           )}
         </div>
       </div>
+      
     </article>
   );
 };
