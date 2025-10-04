@@ -56,11 +56,11 @@ const staticNavItems = [
         href: '/BLproductosInventario/BLPedidos',
         icon: ListOrderedIcon,
     },
-    {
-        title: 'clientes',
-        href: '/BLproductosInventario/BLClientes',
-        icon: SquareUserRound,
-    },
+    // {
+    //     title: 'clientes',
+    //     href: '/BLproductosInventario/BLClientes',
+    //     icon: SquareUserRound,
+    // },
     {
         title: 'Marcacion',
         href: '/BLproductosInventario/BLMarcacion',

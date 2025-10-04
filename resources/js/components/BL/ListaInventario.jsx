@@ -157,7 +157,7 @@ const ListaInventario = ({
                         <input
                             type="text"
                             placeholder="Buscar producto, color, tipo o ubicación..."
-                            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm dark:text-black"
                             value={busqueda}
                             onChange={(e) => onBusquedaChange(e.target.value)}
                         />
@@ -172,7 +172,7 @@ const ListaInventario = ({
                     <div className="flex items-center gap-2">
                         <span className="text-gray-700 font-medium text-sm">Categoría:</span>
                         <select 
-                            className="border border-gray-300 rounded-lg px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm flex-1"
+                            className="border border-gray-300 rounded-lg px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm flex-1 dark:text-black"
                             value={categoriaFiltro}
                             onChange={(e) => onCategoriaChange(e.target.value)}
                         >
@@ -280,7 +280,7 @@ const ListaInventario = ({
             </div>
 
             {/* Modal de ubicación usando AgentModalWrapper */}
-            {modalUbicacionOpen && productoSeleccionado && (
+            {/* {modalUbicacionOpen && productoSeleccionado && (
                 <AgentModalWrapper closeModal={closeModalUbicacion}>
                     <ModalUbicacion
                         producto={productoSeleccionado}
@@ -289,7 +289,7 @@ const ListaInventario = ({
                         onSave={handleGuardarUbicacion}
                     />
                 </AgentModalWrapper>
-            )}
+            )} */}
             
             {/* Toast notifications */}
             {toast.show && (

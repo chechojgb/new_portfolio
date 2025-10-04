@@ -2,7 +2,7 @@ import React from "react";
 
 export default function HeroSection() {
   return (
-    <section className="hero min-h-screen flex items-center relative px-4 sm:px-6 lg:px-8 z-10 pb-10">
+    <section className="hero min-h-screen flex items-center relative px-4 sm:px-6 lg:px-8 z-10 pb-10 bg-[#020617]">
       <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between py-12 lg:py-0">
         
         {/* Columna izquierda (Texto) */}

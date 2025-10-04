@@ -351,7 +351,7 @@ const PlanoAlmacen = ({ onEstanteriaClick, productos }) => {
                 </div>
 
                 {/* ÁREA SIN UBICACIÓN (ESQUINA INFERIOR DERECHA) */}
-                {productos.some(p => !p.tiene_ubicacion) && (
+                {productos.length > 0 && productos.some(p => !p.tiene_ubicacion) && (
                     <div 
                         className="absolute bottom-4 right-4 w-48 bg-gradient-to-r from-gray-300 to-gray-400 border-2 border-dashed border-gray-500 rounded-lg p-3 cursor-pointer hover:scale-105 transition-all duration-200"
                         onClick={() => onEstanteriaClick("Sin ubicación")}

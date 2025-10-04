@@ -10,29 +10,23 @@ import { themeByProject } from "../utils/theme";
 import { usePage } from "@inertiajs/react";
 import AgentModalWrapper from '@/components/agentsModalWrapper';
 import { ModalViewPedidosBL } from "./modalesBL";
-import { Inertia } from '@inertiajs/inertia';
-import axios from "axios";
 
-export default function TablaPedidosBL({ pedidos, search }) {
+export default function TablaPedidosBL({ search }) {
   const { props } = usePage();
   const proyecto = props?.auth?.user?.proyecto || "AZZU";
   const theme = themeByProject[proyecto];
   const [modalOpen, setModalOpen] = useState(false);
   const [pedidoId, setPedidoId] = useState(null);
+  const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
 
-  const openModal = async (id) => {
-    try {
-      const response = await axios.get(`BLPedidosShow/${id}`); 
-      setPedidoId(response.data.pedido);
-      setModalOpen(true);
-    } catch (error) {
-      console.error("Error al cargar pedido", error);
-    }
-    console.log(pedidoId);
+  const openModal = (pedido) => {
+    setPedidoSeleccionado(pedido);
+    setModalOpen(true);
   };
+
   const closeModal = () => {
     setModalOpen(false);
-    setPedidoId(null);
+    setPedidoSeleccionado(null);
   };
 
   const estadosStyle = {
@@ -41,61 +35,88 @@ export default function TablaPedidosBL({ pedidos, search }) {
     cancelado: "text-red-800 bg-red-100",
   };
 
-  // Preparamos los datos antes de pasarlos a la tabla
-  const data = useMemo(() => {
-    return pedidos.map((pedido) => {
-      // Agrupamos productos
-      const productosAgrupados = pedido.items.reduce((acc, item) => {
-      const productoId = item.empaque.producto.id;
-      const nombreProducto = item.empaque.producto.descripcion;
+  // 🚀 Datos de prueba
+  const fakePedidos = Array.from({ length: 20 }, (_, i) => {
+    const estados = ["pendiente", "entregado", "cancelado"];
+    return {
+      id: i + 1,
+      usuario_creador: { name: `Usuario ${i + 1}` }, // Creado por
+      cliente: {
+        nombre: `Cliente ${i + 1}`, // Cliente
+        contacto: `contacto${i + 1}@correo.com`, // Contacto
+        telefono: `30012345${i + 10}`, // Teléfono
+      },
+      fecha_pedido: `2025-10-${(i % 30) + 1}`, // Fecha del pedido
+      fecha_entrega: `2025-11-${(i % 30) + 1}`, // Fecha de entrega
+      notas: i % 3 === 0 ? "Pedido urgente" : "Sin notas", // Notas del pedido
+      estado: estados[Math.floor(Math.random() * estados.length)], // Estado
+      items: [
+        {
+          id: `item-${i + 1}-1`,
+          empaque: {
+            producto: { descripcion: "Botón Azul" },
+            codigo_unico: `AZ-${i + 1}-1`,
+          },
+          cantidad_empaques: Math.floor(Math.random() * 5) + 1,
+          nota: i % 2 === 0 ? "Empaque dañado" : null,
+        },
+        {
+          id: `item-${i + 1}-2`,
+          empaque: {
+            producto: { descripcion: "Botón Rojo" },
+            codigo_unico: `RO-${i + 1}-2`,
+          },
+          cantidad_empaques: Math.floor(Math.random() * 5) + 1,
+        },
+      ],
+    };
+  });
 
-      if (!acc[productoId]) {
-        acc[productoId] = {
-          nombre: nombreProducto,
-          cantidad: 0,
-        };
-      }
-        acc[productoId].cantidad += item.cantidad_empaques;
-        return acc;
-      }, {});
-      const listaProductos = Object.values(productosAgrupados);
 
-      return {
-        id: pedido.id,
-        cliente: pedido.cliente.nombre,
-        productos: listaProductos,
-        fecha: pedido.fecha_pedido,
-        estado: pedido.estado,
-      };
-    });
-  }, [pedidos]);
+  // Memoize de datos
+  const data = useMemo(() => fakePedidos, []);
 
-  // Definimos columnas
+  // Columnas
   const columns = [
-    { accessorKey: "cliente", header: "Cliente" },
     {
-      accessorKey: "productos",
+      accessorKey: "id",
+      header: "ID",
+    },
+    {
+      accessorKey: "cliente",
+      header: "Cliente",
+      cell: ({ row }) => (
+        <div>
+          <div className="font-semibold">{row.original.cliente.nombre}</div>
+          <div className="text-sm text-gray-500">{row.original.cliente.contacto}</div>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "items",
       header: "Productos",
       cell: ({ row }) => (
         <div className="space-y-1">
-          {row.original.productos.map((prod, idx) => (
+          {row.original.items.map((item, idx) => (
             <div key={idx}>
-              {prod.nombre}{" "}
-              <span className="text-gray-500">x{prod.cantidad}</span>
+              {item.empaque.producto.descripcion}{" "}
+              <span className="text-gray-500">x{item.cantidad_empaques}</span>
             </div>
           ))}
         </div>
       ),
     },
-    { accessorKey: "fecha", header: "Fecha acordada" },
+    {
+      accessorKey: "fecha_entrega",
+      header: "Fecha de entrega",
+    },
     {
       accessorKey: "estado",
       header: "Estado",
       cell: ({ row }) => (
         <span
           className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-            estadosStyle[row.original.estado] ||
-            "text-gray-800 bg-gray-100"
+            estadosStyle[row.original.estado] || "text-gray-800 bg-gray-100"
           }`}
         >
           {row.original.estado}
@@ -108,13 +129,14 @@ export default function TablaPedidosBL({ pedidos, search }) {
       cell: ({ row }) => (
         <button
           className={`${theme.text} font-medium hover:underline cursor-pointer`}
-          onClick={() => openModal(row.original.id)}
+          onClick={() => openModal(row.original)} // 👈 pasamos el pedido completo
         >
-          Detalles
+          Ver más
         </button>
       ),
     },
   ];
+
 
   const [sorting, setSorting] = useState([]);
 
@@ -135,7 +157,7 @@ export default function TablaPedidosBL({ pedidos, search }) {
     },
   });
 
-  // 3️⃣ Render
+  // Render
   return (
     <>
       <table className="min-w-full text-sm text-left text-gray-500 dark:text-gray-400 border">
@@ -148,10 +170,7 @@ export default function TablaPedidosBL({ pedidos, search }) {
                   className="px-6 py-3 cursor-pointer select-none"
                   onClick={header.column.getToggleSortingHandler()}
                 >
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
+                  {flexRender(header.column.columnDef.header, header.getContext())}
                   {{
                     asc: " 🔼",
                     desc: " 🔽",
@@ -182,7 +201,7 @@ export default function TablaPedidosBL({ pedidos, search }) {
       </table>
       {modalOpen && (
         <AgentModalWrapper closeModal={closeModal}>
-          <ModalViewPedidosBL  onClose={closeModal} pedido={pedidoId}/> 
+          <ModalViewPedidosBL onClose={closeModal} pedido={pedidoSeleccionado} />
         </AgentModalWrapper>
       )}
     </>
