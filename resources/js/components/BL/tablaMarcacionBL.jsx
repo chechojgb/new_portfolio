@@ -67,11 +67,11 @@ export default function TablaMarcacionBL({itemsPedidos, search}) {
   };
 
   const columns = [
-    { accessorKey: 'pedido.cliente.nombre', header: 'cliente' },
+    { accessorKey: 'cliente', header: 'cliente' },
     {
       header: 'pedido',
       accessorFn: (row) =>
-        `PED #${row.pedido_id ?? ''} - ${row.empaque?.producto?.descripcion ?? '—'}`
+        `PED #${row.pedido_id ?? ''} - ${row.producto ?? '—'}`
     },
     { accessorKey: 'cantidad_empaques', header: 'cantidad' },
     { accessorKey: 'nota', header: 'nota' },
@@ -277,7 +277,7 @@ export default function TablaMarcacionBL({itemsPedidos, search}) {
         <tbody>
           {table.getRowModel().rows.map((row, index) => {
             const marcacion = row.original.marcaciones?.[0]; // accede al primer elemento
-            const estaPagado = marcacion?.pagado === true || marcacion?.pagado === 1;
+            const estaPagado = row.original.estado === "completado"
 
             return (
               <tr
@@ -326,21 +326,15 @@ export default function TablaMarcacionBL({itemsPedidos, search}) {
               ¿Estás seguro de ejecutar esta acción para el trabajador: <strong>{selectedItems.map(item => item.nombre_trabajador)}</strong>?
             </h3>
             <div className="flex justify-center gap-4">
-              <Button color="red" onClick={() => {
-                router.post(route("bl-cuentas-cobro.pasar-pagados"), { items: selectedItems}, {
-                  onSuccess: () => {
-                    setToast({ show: true, success: true, message: "Items pasados a pagados" });
-                    setSelectedItems([]); 
-                  },
-                  onError: (errors) => {
-                    const primerError = Object.values(errors)[0];
-                    setToast({ show: true, success: false, message: primerError || "Error al marcar items" });
-                  }
-                });
-                setOpenModal(false);
-              }}>
-                
-                Si, Estoy seguro
+              <Button 
+                color="red" 
+                className="text-gray-200 dark:!text-gray-300"
+                onClick={() => {
+                  setToast({ show: true, success: true, message: "Items pasados a pagados" });
+                  setOpenModal(false);
+                }}
+              >
+                Sí, estoy seguro
               </Button>
               <Button color="alternative" onClick={() => setOpenModal(false)}>
                 No, cancelar

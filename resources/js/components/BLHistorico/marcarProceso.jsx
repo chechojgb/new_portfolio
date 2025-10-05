@@ -206,13 +206,14 @@ const MarcacionForm = ({ itemsPedidos, orderCustomer, buttonUser }) => {
     <div className="bg-white dark:bg-gray-800 shadow-md rounded-2xl p-4 mb-6">
       <h2 className="text-lg font-semibold mb-4">Agregar Marcado</h2>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         
         <ClienteSelector
           nuevo={nuevo}
           handleChange={handleChange}
           sugerencias={sugerencias}
           seleccionarCliente={seleccionarCliente}
+          clientesDisponibles={clientesDisponibles}
         />
 
         <PedidoSelector
@@ -229,11 +230,6 @@ const MarcacionForm = ({ itemsPedidos, orderCustomer, buttonUser }) => {
           setPrecios={setPrecios}
         />
 
-        <FechaSelector
-          fecha={nuevo.fecha}
-          setFecha={setFecha}
-          nuevo={nuevo}
-        />
       </div>
 
       <div className="mt-4 overflow-x-auto">
@@ -252,6 +248,7 @@ const MarcacionForm = ({ itemsPedidos, orderCustomer, buttonUser }) => {
             color="blue"
             disabled={seleccionados.length === 0 || isLoading}
             onClick={guardarMarcaciones}
+            className='text-blue'
           >
             {isLoading ? (
               <RefreshCw size={16} className="animate-spin mr-2" />
