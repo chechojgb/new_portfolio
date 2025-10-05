@@ -8,6 +8,8 @@ const ItemsTable = ({
 }) => {
   // Asegurarse de que itemsDisponibles sea siempre un array
   const items = Array.isArray(itemsDisponibles) ? itemsDisponibles : [];
+  console.log(items);
+  
 
   const toggleSeleccion = (id, checked) => {
     if (checked) {
@@ -27,11 +29,11 @@ const ItemsTable = ({
       <table className="w-full text-sm border rounded-lg bg-white dark:bg-gray-900/50">
         <thead className="bg-gray-100 dark:bg-gray-900">
           <tr>
-            <th className="px-2 py-1">Referencia</th>
-            <th className="px-2 py-1">Cantidad</th>
-            <th className="px-2 py-1">Nota</th>
+            <th className="px-2 py-1 text-center">Referencia</th>
+            <th className="px-2 py-1 text-center">Cantidad</th>
+            <th className="px-2 py-1 text-center">Nota</th>
             {nuevo.proyecto === "Button LoversMN" && (
-              <th className="px-2 py-1">💲 Precio Unitario</th>
+              <th className="px-2 py-1 text-center">💲 Precio Unitario</th>
             )}
             <th className="px-2 py-1 text-center">Acción</th>
           </tr>
@@ -53,13 +55,13 @@ const ItemsTable = ({
                     : ""
                 }`}
               >
-                <td className="px-2 py-1">{item.empaque?.producto?.descripcion}</td>
-                <td className="px-2 py-1">{item.cantidad_empaques}</td>
-                <td className="px-2 py-1">{item.nota || "—"}</td>
+                <td className="px-2 py-1 text-center align-middle">{item.pedido?.codigo}</td>
+                <td className="px-2 py-1 text-center align-middle">{item.cantidad_empaques}</td>
+                <td className="px-2 py-1 text-center align-middle">{item.nota || "—"}</td>
 
                 {/* Precios solo para Button LoversMN */}
                 {nuevo.proyecto === "Button LoversMN" && (
-                  <td className="px-2 py-1">
+                  <td className="px-2 py-1 text-center align-middle">
                     <input
                       type="number"
                       value={precios[item.id] || ""}
@@ -69,8 +71,8 @@ const ItemsTable = ({
                           [item.id]: e.target.value,
                         })
                       }
-                      readOnly={esMarcado || esProceso}   // 👈 cambia disabled → readOnly
-                      className={`border rounded p-1 w-20 ${
+                      readOnly={esMarcado || esProceso}
+                      className={`border rounded p-1 w-20 mx-auto block ${
                         (esMarcado || esProceso) ? "bg-gray-100 dark:bg-gray-700 text-gray-400" : ""
                       }`}
                     />
@@ -78,21 +80,24 @@ const ItemsTable = ({
                 )}
 
                 {/* Acción */}
-                <td className="px-2 py-1 text-center">
+                <td className="px-2 py-1 text-center align-middle">
                   {esMarcado ? (
-                    <span className="dark:text-green-100/60 font-semibold">
+                    <span className="dark:text-green-100/60 font-semibold text-center block">
                       Marcado por: {trabajador}
                     </span>
                   ) : esProceso ? (
-                    <span className="dark:text-yellow-100/70 font-semibold">
+                    <span className="dark:text-yellow-100/70 font-semibold text-center block">
                       En proceso por: {trabajador}
                     </span>
                   ) : (
-                    <input
-                      type="checkbox"
-                      checked={seleccionados.includes(item.id)}
-                      onChange={(e) => toggleSeleccion(item.id, e.target.checked)}
-                    />
+                    <div className="flex justify-center">
+                      <input
+                        type="checkbox"
+                        checked={seleccionados.includes(item.id)}
+                        onChange={(e) => toggleSeleccion(item.id, e.target.checked)}
+                        className="mx-auto"
+                      />
+                    </div>
                   )}
                 </td>
               </tr>
