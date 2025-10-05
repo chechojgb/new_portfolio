@@ -30,7 +30,7 @@ export default function HeroSection() {
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-gradient-to-r from-blue-500/10 to-teal-500/10 border border-blue-500/20 mb-8 backdrop-blur-sm">
             <i className="fas fa-rocket text-blue-400 animate-bounce"></i>
             <span className="text-xl text-blue-400 font-medium">
-              Fullstack Developer | Laravel | Asterisk
+              Fullstack Developer | Laravel | React  | Asterisk 
             </span>
           </div>
 

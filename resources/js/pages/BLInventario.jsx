@@ -6,6 +6,7 @@ import ListaInventario from '@/components/BL/ListaInventario';
 import PlanoAlmacen from '@/components/BL/PlanoAlmacen';
 import { useDispositivo } from '@/components/BL/hooks/useDispositivo';
 import { useFiltrosInventario } from '@/components/BL/hooks/useFiltrosInventario';
+import { useState, useEffect } from 'react';
 
 const breadcrumbs = [
     {
@@ -14,7 +15,71 @@ const breadcrumbs = [
     },
 ];
 
-// 🔹 Datos de prueba (mock)
+// 🔹 Hook personalizado para detectar tamaño de pantalla
+const useTamañoPantalla = () => {
+    const [anchoPantalla, setAnchoPantalla] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setAnchoPantalla(window.innerWidth);
+        };
+
+        // Verificar al cargar
+        handleResize();
+
+        // Escuchar cambios de tamaño
+        window.addEventListener('resize', handleResize);
+        
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    return { anchoPantalla };
+};
+
+// 🔹 Componente de advertencia
+const AdvertenciaPantallaPequena = ({ onCerrar }) => (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-xl">
+            <div className="text-center">
+                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 mb-4">
+                    <svg className="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                    </svg>
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    Pantalla muy pequeña
+                </h3>
+                <p className="text-sm text-gray-500 mb-4">
+                    Para una mejor visualización del plano:
+                </p>
+                <ul className="text-sm text-gray-500 mb-6 text-left space-y-2">
+                    <li className="flex items-start">
+                        <span className="text-blue-500 mr-2">•</span>
+                        Cierre el listado del inventario usando el botón inferior
+                    </li>
+                    <li className="flex items-start">
+                        <span className="text-blue-500 mr-2">•</span>
+                        Aleje un poco la pantalla (Ctrl + -)
+                    </li>
+                    <li className="flex items-start">
+                        <span className="text-blue-500 mr-2">•</span>
+                        Use el zoom del navegador para ajustar la vista
+                    </li>
+                </ul>
+                <button
+                    onClick={onCerrar}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200"
+                >
+                    Entendido
+                </button>
+            </div>
+        </div>
+    </div>
+);
+
+// 🔹 Datos de prueba (mock) - se mantienen igual
 const mockProductos = [
     // 🔹 EST-01
     { id: 1, descripcion: "Botón metálico dorado", tipo_producto: "Botón", color_nombre: "Dorado", tamanio: "12mm", stock_total: 500, estanteria: "EST-01", estanterias_codigos: ["EST-01"], tiene_ubicacion: true },
@@ -101,6 +166,10 @@ export default function PlanoInventario() {
     const estanterias = mockEstanterias;
 
     const { isMobile } = useDispositivo();
+    const { anchoPantalla } = useTamañoPantalla();
+    const [mostrarLista, setMostrarLista] = useState(true);
+    const [advertenciaVisible, setAdvertenciaVisible] = useState(false);
+
     const {
         filtro,
         setFiltro,
@@ -117,6 +186,22 @@ export default function PlanoInventario() {
         setFiltro(filtro === estanteria ? null : estanteria);
     };
 
+    // Mostrar advertencia cuando la pantalla sea pequeña
+    useEffect(() => {
+        if (anchoPantalla < 1700 && !advertenciaVisible) {
+            setAdvertenciaVisible(true);
+        }
+    }, [anchoPantalla, advertenciaVisible]);
+
+    const cerrarAdvertencia = () => {
+        setAdvertenciaVisible(false);
+    };
+
+    const toggleLista = () => {
+        setMostrarLista(!mostrarLista);
+    };
+
+    // Para pantallas móviles
     if (isMobile) {
         return (
             <AppLayoutBL breadcrumbs={breadcrumbs}>
@@ -141,11 +226,73 @@ export default function PlanoInventario() {
         );
     }
 
+    // Para pantallas menores a 1700px
+    if (anchoPantalla < 1700) {
+        return (
+            <AppLayoutBL breadcrumbs={breadcrumbs}>
+                <Head title="Inventario Buttons Lovers" />
+                
+                {/* Advertencia para pantallas pequeñas */}
+                {advertenciaVisible && (
+                    <AdvertenciaPantallaPequena onCerrar={cerrarAdvertencia} />
+                )}
+
+                <div className="flex h-screen dark:bg-black p-6 gap-6 relative">
+                    {/* Plano del almacén - Ocupa todo el espacio cuando la lista está oculta */}
+                    <div className={`${mostrarLista ? 'flex-1' : 'w-full'}`}>
+                        <PlanoAlmacen 
+                            onEstanteriaClick={handleEstanteriaClick}
+                            productos={productos}
+                        />
+                    </div>
+                    
+                    {/* Lista de inventario - Condicional */}
+                    {mostrarLista && (
+                        <div className="w-96 flex-shrink-0">
+                            <ListaInventario 
+                                productos={productos}
+                                productosFiltrados={productosFiltrados}
+                                filtro={filtro}
+                                busqueda={busqueda}
+                                categoriaFiltro={categoriaFiltro}
+                                categorias={categorias}
+                                onFiltroChange={setFiltro}
+                                onBusquedaChange={setBusqueda}
+                                onCategoriaChange={setCategoriaFiltro}
+                                onLimpiarFiltros={limpiarFiltros}
+                                onEstanteriaClick={handleEstanteriaClick}
+                                estanterias={estanterias}
+                            />
+                        </div>
+                    )}
+
+                    {/* Botón flotante para mostrar/ocultar lista */}
+                    <button
+                        onClick={toggleLista}
+                        className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg z-40 transition duration-200"
+                        title={mostrarLista ? 'Ocultar listado' : 'Mostrar listado'}
+                    >
+                        {mostrarLista ? (
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        ) : (
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        )}
+                    </button>
+                </div>
+            </AppLayoutBL>
+        );
+    }
+
+    // Para pantallas mayores o iguales a 1700px - ESTILOS ORIGINALES
     return (
         <AppLayoutBL breadcrumbs={breadcrumbs}>
             <Head title="Inventario Buttons Lovers" />
             
-            <div className="flex h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6 gap-6">
+            <div className="flex h-screen dark:bg-black p-6 gap-6">
                 {/* Plano del almacén */}
                 <PlanoAlmacen 
                     onEstanteriaClick={handleEstanteriaClick}

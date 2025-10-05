@@ -118,7 +118,7 @@ const ListaInventario = ({
     // Si está contraída, mostrar solo un ícono pequeño
     if (!expandida) {
         return (
-            <div className="w-16 bg-white/80 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl p-4 flex flex-col items-center justify-center">
+            <div className="w-16 bg-white/80 dark:bg-gray-800 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl p-4 flex flex-col items-center justify-center">
                 <button
                     onClick={toggleExpandida}
                     className="p-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all duration-300 hover:scale-110"
@@ -128,7 +128,7 @@ const ListaInventario = ({
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
-                <span className="text-xs text-gray-600 mt-2 text-center">Mostrar Lista</span>
+                <span className="text-xs  mt-2 text-center">Mostrar Lista</span>
             </div>
         );
     }
@@ -136,10 +136,10 @@ const ListaInventario = ({
     // Si está expandida, mostrar la lista completa
     return (
         <>
-            <div className="w-full sm:w-[350px] md:w-[400px] lg:w-[450px] bg-white/80 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl p-6 overflow-hidden flex flex-col transition-all duration-300">
+            <div className="w-full sm:w-[350px] md:w-[400px] lg:w-[450px] bg-white/80 dark:bg-gray-800 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl p-6 overflow-hidden flex flex-col transition-all duration-300">
                 {/* Header con botón de cerrar */}
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-bold text-gray-800">📦 Inventario</h2>
+                    <h2 className="text-2xl font-bold ">📦 Inventario</h2>
                     <button
                         onClick={toggleExpandida}
                         className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-all duration-200"
@@ -157,7 +157,7 @@ const ListaInventario = ({
                         <input
                             type="text"
                             placeholder="Buscar producto, color, tipo o ubicación..."
-                            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm dark:text-black"
+                            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm dark:text-gray-50 text-black"
                             value={busqueda}
                             onChange={(e) => onBusquedaChange(e.target.value)}
                         />
@@ -170,9 +170,9 @@ const ListaInventario = ({
                     </div>
                     
                     <div className="flex items-center gap-2">
-                        <span className="text-gray-700 font-medium text-sm">Categoría:</span>
+                        <span className=" font-medium text-sm">Categoría:</span>
                         <select 
-                            className="border border-gray-300 rounded-lg px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm flex-1 dark:text-black"
+                            className="border border-gray-300 rounded-lg px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm flex-1 dark:text-white dark:bg-gray-800"
                             value={categoriaFiltro}
                             onChange={(e) => onCategoriaChange(e.target.value)}
                         >
@@ -199,10 +199,10 @@ const ListaInventario = ({
                 )}
                 
                 {/* Contador de resultados */}
-                <div className="mb-3 text-xs text-gray-600">
+                <div className="mb-3 text-xs ">
                     Mostrando {productosFiltrados.length} de {productos.length} productos
                     {productosFiltrados.some(p => !p.tiene_ubicacion) && (
-                        <span className="text-red-500 ml-2">⚠️ Algunos sin ubicación</span>
+                        <span className="text-red-500 dark:text-red-400 ml-2">⚠️ Algunos sin ubicación</span>
                     )}
                 </div>
                 
@@ -212,51 +212,68 @@ const ListaInventario = ({
                         productosFiltrados.map((p) => (
                             <div
                                 key={p.id}
-                                className={`border-b border-gray-200 py-3 px-3 hover:bg-blue-50 rounded-lg transition cursor-pointer ${
-                                    !p.tiene_ubicacion ? 'bg-red-50 border-l-4 border-l-red-400' : ''
-                                }`}
+                                className={`border-b border-gray-200 dark:border-gray-700 py-3 px-3 rounded-lg transition cursor-pointer
+                                    ${!p.tiene_ubicacion 
+                                    ? 'bg-red-50 border-l-4 border-l-red-400 hover:bg-red-100 dark:bg-red-900/30 dark:border-l-red-500 dark:hover:bg-red-900/50' 
+                                    : 'hover:bg-blue-50 dark:hover:bg-gray-800'
+                                    }`}
                                 onClick={() => openModalUbicacion(p)}
-                            >
+                                >
                                 <div className="flex items-start justify-between gap-3">
                                     {/* Información del producto */}
                                     <div className="flex-1 min-w-0">
-                                        <div className="font-medium text-gray-800 text-sm mb-1 truncate">
-                                            {p.descripcion || `${p.tipo_producto} ${p.color_nombre} ${p.tamanio}`}
-                                            {!p.tiene_ubicacion && (
-                                                <span className="text-red-500 text-xs ml-1">📍</span>
-                                            )}
-                                        </div>
-                                        <div className="text-xs text-gray-500">
-                                            {p.tipo_producto} • {p.color_nombre} • {p.tamanio}
-                                        </div>
+                                    <div
+                                        className={`font-medium text-gray-800 text-sm mb-1 truncate 
+                                        ${!p.tiene_ubicacion 
+                                            ? 'dark:text-gray-200' 
+                                            : 'dark:text-gray-50'
+                                        }`}
+                                    >
+                                        {p.descripcion || `${p.tipo_producto} ${p.color_nombre} ${p.tamanio}`}
+                                        {!p.tiene_ubicacion && (
+                                        <span className="text-red-500 text-xs ml-1 dark:text-red-400">📍</span>
+                                        )}
+                                    </div>
+
+                                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                                        {p.tipo_producto} • {p.color_nombre} • {p.tamanio}
+                                    </div>
                                     </div>
 
                                     {/* Stock */}
                                     <div className="text-right whitespace-nowrap ml-2">
-                                        <div className="text-sm font-semibold text-gray-700">
-                                            {p.stock_total} unidades
-                                        </div>
+                                    <div
+                                        className={`text-sm font-semibold text-gray-700 
+                                        ${!p.tiene_ubicacion 
+                                            ? 'dark:text-gray-100' 
+                                            : 'dark:text-gray-200'
+                                        }`}
+                                    >
+                                        {p.stock_total} unidades
+                                    </div>
                                     </div>
                                 </div>
 
                                 {/* Ubicaciones como badges con scroll */}
                                 <div className="mt-2 overflow-x-auto whitespace-nowrap scrollbar-thin">
                                     <div className="flex gap-1 pb-1">
-                                        {p.estanteria.split(', ').map((ubicacion, index) => (
-                                            <span 
-                                                key={index}
-                                                className={`inline-flex items-center px-2 py-1 rounded-full text-xs border ${
-                                                    !p.tiene_ubicacion 
-                                                        ? 'bg-red-100 text-red-800 border-red-200' 
-                                                        : 'bg-blue-100 text-blue-800 border-blue-200'
-                                                }`}
-                                            >
-                                                {ubicacion}
-                                            </span>
-                                        ))}
+                                    {p.estanteria.split(', ').map((ubicacion, index) => (
+                                        <span
+                                        key={index}
+                                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs border
+                                            ${
+                                            !p.tiene_ubicacion 
+                                                ? 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/40 dark:text-red-300 dark:border-red-700'
+                                                : 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-700'
+                                            }`}
+                                        >
+                                        {ubicacion}
+                                        </span>
+                                    ))}
                                     </div>
                                 </div>
                             </div>
+
                         ))
                     ) : (
                         <div className="text-center py-8 text-gray-500 text-sm">

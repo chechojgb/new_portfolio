@@ -45,12 +45,12 @@ const PlanoAlmacen = ({ onEstanteriaClick, productos }) => {
     };
 
     return (
-        <div className="flex-1 bg-white/80 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl p-6 overflow-hidden relative">
+        <div className="flex-1 bg-white/80 dark:bg-gray-900 backdrop-blur-sm border border-white/30 dark:border-gray-700 shadow-2xl rounded-3xl p-6 overflow-hidden relative transition-colors duration-300">
             {/* Título del plano */}
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">📋 Plano del Almacén</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-gray-100">📋 Plano del Almacén</h2>
             
             {/* Contenedor principal del plano */}
-            <div className="relative w-full h-[calc(100%-80px)] bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+            <div className="relative w-full h-[calc(100%-80px)] bg-gray-50 dark:bg-gray-800 rounded-xl border-2 border-dashed border-gray-300">
                 
                 {/* LÍNEA DIVISORIA VERTICAL EN EL CENTRO */}
                 <div className="absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2 w-1 bg-gray-300"></div>
@@ -60,37 +60,33 @@ const PlanoAlmacen = ({ onEstanteriaClick, productos }) => {
                     {/* MITAD IZQUIERDA SUPERIOR: E1 + C JUNTOS */}
                     <div className="w-1/2 h-full flex gap-4">
                         {/* E1 */}
-                        <div className="w-1/2 h-full">
-                            <div 
-                                className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-orange-400 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg"
-                                onClick={() => onEstanteriaClick("EST-01")}
+                        <div
+                            className="w-1/2 h-full bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-900 dark:to-orange-700 dark:border-orange-600 border-2 border-orange-400  rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                            onClick={() => onEstanteriaClick('EST-01')}
                             >
-                                <span className="font-bold text-orange-800 text-xl">EST-01</span>
-                                <span className="font-bold text-orange-700 text-sm">{getNombreEstanteria("EST-01")}</span>
-                                <span className="text-xs text-orange-600 mt-1">
-                                    {productosPorEstanteria("EST-01")} productos
-                                </span>
-                            </div>
+                            <span className="font-bold text-orange-800 dark:text-orange-200 text-xl">EST-01</span>
+                            <span className="font-bold text-orange-700 dark:text-orange-300 text-sm">{getNombreEstanteria('EST-01')}</span>
+                            <span className="text-xs text-orange-600 dark:text-orange-400 mt-1">
+                                {productosPorEstanteria('EST-01')} productos
+                            </span>
                         </div>
 
                         {/* C */}
-                        <div className="w-1/2 h-full">
-                            <div 
-                                className="w-full h-full bg-gradient-to-br from-blue-100 to-purple-100 border-2 border-blue-300 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg"
-                                onClick={() => onEstanteriaClick("Zona de Computadores")}
+                        <div
+                            className="w-1/2 h-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-indigo-800 border-2 border-blue-300 dark:border-blue-700 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                            onClick={() => onEstanteriaClick('Zona de Computadores')}
                             >
-                                <span className="font-bold text-blue-800 text-xl">C</span>
-                                <span className="font-bold text-blue-700 text-sm">💻 Computadores</span>
-                                <span className="text-xs text-blue-600 mt-1">Área de trabajo</span>
-                            </div>
+                            <span className="font-bold text-blue-800 dark:text-blue-200 text-xl">C</span>
+                            <span className="font-bold text-blue-700 dark:text-blue-300 text-sm">💻 Computadores</span>
+                            <span className="text-xs text-blue-600 dark:text-blue-400 mt-1">Área de trabajo</span>
                         </div>
                     </div>
 
                     {/* MITAD DERECHA SUPERIOR: VACÍA */}
-                    <div className="w-1/2 h-full bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-dashed border-gray-400 rounded-xl flex flex-col justify-center items-center">
-                        <div className="text-center text-gray-500">
-                            <div className="text-2xl mb-1">📭</div>
-                            <p className="text-xs">ZONA DE EMPAQUETACIÓN</p>
+                    <div className="w-1/2 h-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 border-2 border-dashed border-gray-400 dark:border-gray-600 rounded-xl flex flex-col justify-center items-center">
+                        <div className="text-center text-gray-500 dark:text-gray-300">
+                        <div className="text-2xl mb-1">📭</div>
+                        <p className="text-xs">ZONA DE EMPAQUETACIÓN</p>
                         </div>
                     </div>
                 </div>
@@ -124,12 +120,12 @@ const PlanoAlmacen = ({ onEstanteriaClick, productos }) => {
                             {/* E2 (12%) */}
                             <div className="h-[12%]">
                                 <div 
-                                    className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-orange-400 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                                    className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-orange-400 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg dark:from-orange-900 dark:to-orange-700 dark:border-orange-600"
                                     onClick={() => onEstanteriaClick("EST-02")}
                                 >
-                                    <span className="font-bold text-orange-800 text-xl">EST-02</span>
-                                    <span className="font-bold text-orange-700 text-sm">{getNombreEstanteria("EST-02")}</span>
-                                    <span className="text-xs text-orange-600 mt-1">
+                                    <span className="font-bold text-orange-800 text-xl dark:text-orange-200">EST-02</span>
+                                    <span className="font-bold text-orange-700 text-sm dark:text-orange-300">{getNombreEstanteria("EST-02")}</span>
+                                    <span className="text-xs text-orange-600 mt-1 dark:text-orange-400">
                                         {productosPorEstanteria("EST-02")} productos
                                     </span>
                                 </div>
@@ -138,12 +134,12 @@ const PlanoAlmacen = ({ onEstanteriaClick, productos }) => {
                             {/* E3 (12%) */}
                             <div className="h-[12%]">
                                 <div 
-                                    className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-orange-400 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                                    className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-orange-400 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg dark:from-orange-900 dark:to-orange-700 dark:border-orange-600"
                                     onClick={() => onEstanteriaClick("EST-03")}
                                 >
-                                    <span className="font-bold text-orange-800 text-xl">EST-03</span>
-                                    <span className="font-bold text-orange-700 text-sm">{getNombreEstanteria("EST-03")}</span>
-                                    <span className="text-xs text-orange-600 mt-1">
+                                    <span className="font-bold text-orange-800 text-xl dark:text-orange-200">EST-03</span>
+                                    <span className="font-bold text-orange-700 text-sm dark:text-orange-300">{getNombreEstanteria("EST-03")}</span>
+                                    <span className="text-xs text-orange-600 mt-1 dark:text-orange-400">
                                         {productosPorEstanteria("EST-03")} productos
                                     </span>
                                 </div>
@@ -157,12 +153,12 @@ const PlanoAlmacen = ({ onEstanteriaClick, productos }) => {
                             {/* E4 (12%) */}
                             <div className="h-[12%]">
                                 <div 
-                                    className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-orange-400 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                                    className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-orange-400 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg dark:from-orange-900 dark:to-orange-700 dark:border-orange-600"
                                     onClick={() => onEstanteriaClick("EST-04")}
                                 >
-                                    <span className="font-bold text-orange-800 text-xl">EST-04</span>
-                                    <span className="font-bold text-orange-700 text-sm">{getNombreEstanteria("EST-04")}</span>
-                                    <span className="text-xs text-orange-600 mt-1">
+                                    <span className="font-bold text-orange-800 text-xl dark:text-orange-200">EST-04</span>
+                                    <span className="font-bold text-orange-700 text-sm dark:text-orange-300">{getNombreEstanteria("EST-04")}</span>
+                                    <span className="text-xs text-orange-600 mt-1 dark:text-orange-400">
                                         {productosPorEstanteria("EST-04")} productos
                                     </span>
                                 </div>
@@ -171,12 +167,12 @@ const PlanoAlmacen = ({ onEstanteriaClick, productos }) => {
                             {/* E5 (12%) */}
                             <div className="h-[12%]">
                                 <div 
-                                    className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-orange-400 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                                    className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-orange-400 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg dark:from-orange-900 dark:to-orange-700 dark:border-orange-600"
                                     onClick={() => onEstanteriaClick("EST-05")}
                                 >
-                                    <span className="font-bold text-orange-800 text-xl">EST-05</span>
-                                    <span className="font-bold text-orange-700 text-sm">{getNombreEstanteria("EST-05")}</span>
-                                    <span className="text-xs text-orange-600 mt-1">
+                                    <span className="font-bold text-orange-800 text-xl dark:text-orange-200">EST-05</span>
+                                    <span className="font-bold text-orange-700 text-sm dark:text-orange-300">{getNombreEstanteria("EST-05")}</span>
+                                    <span className="text-xs text-orange-600 mt-1 dark:text-orange-400">
                                         {productosPorEstanteria("EST-05")} productos
                                     </span>
                                 </div>
@@ -190,12 +186,12 @@ const PlanoAlmacen = ({ onEstanteriaClick, productos }) => {
                             {/* E6 (resto de altura) */}
                             <div className="flex-1">
                                 <div 
-                                    className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-orange-400 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                                    className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-orange-400 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg dark:from-orange-900 dark:to-orange-700 dark:border-orange-600"
                                     onClick={() => onEstanteriaClick("EST-06")}
                                 >
-                                    <span className="font-bold text-orange-800 text-xl">EST-06</span>
-                                    <span className="font-bold text-orange-700 text-sm">{getNombreEstanteria("EST-06")}</span>
-                                    <span className="text-xs text-orange-600 mt-1">
+                                    <span className="font-bold text-orange-800 text-xl dark:text-orange-200">EST-06</span>
+                                    <span className="font-bold text-orange-700 text-sm dark:text-orange-300">{getNombreEstanteria("EST-06")}</span>
+                                    <span className="text-xs text-orange-600 mt-1 dark:text-orange-400">
                                         {productosPorEstanteria("EST-06")} productos
                                     </span>
                                 </div>
@@ -337,12 +333,12 @@ const PlanoAlmacen = ({ onEstanteriaClick, productos }) => {
                         {/* Estantería 7 abajo */}
                         <div className="h-[10%]">
                             <div 
-                                className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-orange-400 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                                className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-orange-400 rounded-xl flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg dark:from-orange-900 dark:to-orange-700 dark:border-orange-600"
                                 onClick={() => onEstanteriaClick("EST-07")}
                             >
-                                <span className="font-bold text-orange-800 text-xl">EST-07</span>
-                                <span className="font-bold text-orange-700 text-sm">{getNombreEstanteria("EST-07")}</span>
-                                <span className="text-xs text-orange-600 mt-1">
+                                <span className="font-bold text-orange-800 text-xl dark:text-orange-200">EST-07</span>
+                                <span className="font-bold text-orange-700 text-sm dark:text-orange-300">{getNombreEstanteria("EST-07")}</span>
+                                <span className="text-xs text-orange-600 mt-1 dark:text-orange-400">
                                     {productosPorEstanteria("EST-07")} productos
                                 </span>
                             </div>
@@ -352,15 +348,15 @@ const PlanoAlmacen = ({ onEstanteriaClick, productos }) => {
 
                 {/* ÁREA SIN UBICACIÓN (ESQUINA INFERIOR DERECHA) */}
                 {productos.length > 0 && productos.some(p => !p.tiene_ubicacion) && (
-                    <div 
-                        className="absolute bottom-4 right-4 w-48 bg-gradient-to-r from-gray-300 to-gray-400 border-2 border-dashed border-gray-500 rounded-lg p-3 cursor-pointer hover:scale-105 transition-all duration-200"
-                        onClick={() => onEstanteriaClick("Sin ubicación")}
+                    <div
+                        className="absolute bottom-4 right-4 w-48 bg-gradient-to-r from-gray-300 to-gray-400 dark:from-gray-700 dark:to-gray-600 border-2 border-dashed border-gray-500 dark:border-gray-500 rounded-lg p-3 cursor-pointer hover:scale-105 transition-all duration-200"
+                        onClick={() => onEstanteriaClick('Sin ubicación')}
                     >
                         <div className="flex justify-between items-center">
-                            <span className="font-bold text-gray-800">📦 Sin ubicación</span>
-                            <span className="bg-gray-500 text-white px-2 py-1 rounded-full text-xs">
-                                {productos.filter(p => !p.tiene_ubicacion).length} productos
-                            </span>
+                        <span className="font-bold text-gray-800 dark:text-gray-100">📦 Sin ubicación</span>
+                        <span className="bg-gray-500 dark:bg-gray-400 text-white dark:text-gray-900 px-2 py-1 rounded-full text-xs">
+                            {productos.filter(p => !p.tiene_ubicacion).length} productos
+                        </span>
                         </div>
                     </div>
                 )}
