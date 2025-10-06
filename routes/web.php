@@ -55,6 +55,26 @@ Route::get('BLproductosInventario/BLInventario', function () {
 
 //AZZU
 
+Route::get('dashboardAZZU', function () {
+        return Inertia::render('dashboard');
+})->name('dashboardAZZU');
+
+
+Route::get('tablaAgentesAZZU', function () {
+        return Inertia::render('showTableAgents');
+})->name('tablaAgentesAZZU');
+
+Route::get('estadoOperacionesAZZU', function () {
+        return Inertia::render('operationState');
+})->name('estadoOperacionesAZZU');
+
+Route::get('rankingAgentesAZZU', function () {
+        return Inertia::render('agentState');
+})->name('rankingAgentesAZZU');
+
+Route::get('estadoLlamadaAZZU', function () {
+        return Inertia::render('callState');
+})->name('estadoLlamadaAZZU');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
