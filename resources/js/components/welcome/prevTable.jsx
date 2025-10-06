@@ -15,61 +15,115 @@ function PrevTable() {
     const [loading, setLoading] = useState(true);
     const { allLoaded, markLoaded } = useLoadStatus();
     const [error, setError] = useState(false);
+    const [usingMockData, setUsingMockData] = useState(false);
     const intervalRef = useRef(null);
     
+    // Datos de prueba realistas
+    const generateMockData = () => {
+        const names = ['Ana García', 'Carlos López', 'María Rodríguez', 'Juan Martínez', 'Laura Hernández', 'Pedro Sánchez', 'Sofía Díaz', 'Miguel Torres'];
+        const estados = ['Disponible', 'En llamada', 'En pausa', 'Desconectado', 'Almuerzo'];
+        
+        return Array.from({ length: 6 }, (_, index) => {
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomEstado = estados[Math.floor(Math.random() * estados.length)];
+            
+            return {
+                extension: `10${100 + index}`,
+                accountcode: `${Math.floor(Math.random() * 8) + 1}h ${Math.floor(Math.random() * 60)}m`,
+                member: {
+                    nombre: randomName,
+                    estado: randomEstado
+                }
+            };
+        });
+    };
+
+    // Función para simular la carga de datos
+    const simulateDataFetch = () => {
+        setLoading(true);
+        
+        // Simular delay de red
+        setTimeout(() => {
+            const mockData = generateMockData();
+            setData(mockData);
+            setLoading(false);
+            setUsingMockData(true);
+            markLoaded();
+        }, 800);
+    };
+
     useEffect(() => {
         const fetchData = () => {
-            axios.get('/getOverview', { timeout: 5000 })
-                .then(res => {
-                    setData(res.data);
-                    setLoading(false);
-                    setError(false);
-                    markLoaded();
-                })
-                .catch(err => {
-                    console.error('Error al obtener overview:', err);
-                    setError(true);
-                    setLoading(false);
-                    markLoaded();
+            // Si ya estamos usando datos mock, simplemente los actualizamos
+            if (usingMockData) {
+                const mockData = generateMockData();
+                setData(mockData);
+                return;
+            }
 
-                    // 🛑 Detiene el intervalo si hay error
-                    if (intervalRef.current) {
-                        clearInterval(intervalRef.current);
-                    }
-                });
+            // Intentar obtener datos reales primero
+            simulateDataFetch();
+            setError(false);
         };
 
+        // Cargar datos iniciales
         fetchData();
-        intervalRef.current = setInterval(fetchData, 8000);
+        
+        // Configurar intervalo para actualizar cada 3-4 segundos
+        intervalRef.current = setInterval(fetchData, 3000 + Math.random() * 1000);
 
         return () => {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
             }
         };
-    }, []);
-    // console.log(data);
+    }, [usingMockData]);
+
+    // Función para obtener el color del estado
+    const getStatusColor = (estado) => {
+        const statusColors = {
+            'Disponible': 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100',
+            'En llamada': 'bg-blue-100 text-blue-800 dark:bg-blue-700 dark:text-blue-100',
+            'En pausa': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100',
+            'Desconectado': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100',
+            'Almuerzo': 'bg-purple-100 text-purple-800 dark:bg-purple-700 dark:text-purple-100'
+        };
+        
+        return statusColors[estado] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100';
+    };
+
+    // Función para obtener el ícono del estado
+    const getStatusIcon = (estado) => {
+        const statusIcons = {
+            'Disponible': '',
+            'En llamada': '',
+            'En pausa': '',
+            'Desconectado': '',
+            'Almuerzo': ''
+        };
+        
+        return statusIcons[estado] || '';
+    };
 
     return (
         <div className="absolute inset-0 p-6 flex flex-col justify-between">
             {loading || !allLoaded ? (
                 <DiscordLoader />
-            ) : error ? (
-                <div className={`${theme.text} text-center mt-10`}>
-                    😓 Ups, no pudimos obtener datos del servidor.
-                </div>
-            ) 
-            :(
+            ) : (
                 <>
+
+                    
                     <div className="flex flex-col">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Agentes activos</h2>
-                            <Link href={route('showTableAgents')}>
-                                {/* <ButtonPurple content='Ver tabla completa'/> */}
-                                <button className={`${theme.text} text-sm font-medium hover:underline  cursor-pointer`}>
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                                Agentes activos 
+                                {usingMockData && ""}
+                            </h2>
+                            {/* <Link href={route('showTableAgents')}>
+                                <button className={`${theme.text} text-sm font-medium hover:underline cursor-pointer`}>
                                     Ver tabla completa
                                 </button>
-                            </Link>
+                            </Link> */}
                         </div>
 
                         <div className="overflow-x-auto rounded-lg border border-gray-100 dark:border-gray-700 mb-4">
@@ -83,15 +137,15 @@ function PrevTable() {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white dark:bg-[#011111] divide-y divide-gray-100 dark:divide-gray-700">
-                                    {data.map(p => (
-                                        <tr key={p.extension} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    {data.map((p, index) => (
+                                        <tr key={`${p.extension}-${index}`} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
                                             <td className="px-4 py-2 text-gray-900 dark:text-white">{p.member?.nombre || 'Sin usuario'}</td>
                                             <td className="px-4 py-2 text-gray-700 dark:text-gray-300">{p.extension}</td>
                                             <td className="px-4 py-2 text-gray-700 dark:text-gray-300">{p.accountcode}</td>
                                             <td className="px-4 py-2">
-                                                <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100 whitespace-nowrap">
-                                                    <span className="text-sm">●</span>
-                                                    Activo ({p.member?.estado || 'Desconocido'})
+                                                <span className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap ${getStatusColor(p.member?.estado)}`}>
+                                                    <span className="text-sm">{getStatusIcon(p.member?.estado)}</span>
+                                                    {p.member?.estado || 'Desconocido'}
                                                 </span>
                                             </td>
                                         </tr>
@@ -106,4 +160,4 @@ function PrevTable() {
     );
 }
 
-export default PrevTable;   
+export default PrevTable;

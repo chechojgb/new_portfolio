@@ -27,7 +27,7 @@ const ProjectsSection = () => {
               { name: "React", class: "bg-blue-400 text-white", icon: "images/logos/react.png" },
               { name: "TailwindCSS", class: "bg-cyan-700 text-white", icon: "images/logos/tailwind.png" },
             ]}
-            github="https://github.com/chechojgb/inventario-botones"
+            github="https://github.com/chechojgb/AZZU"
             route='/dashboardBL'
           />
 
@@ -43,8 +43,9 @@ const ProjectsSection = () => {
               { name: "React", class: "bg-blue-400 text-white", icon: "images/logos/react.png" },
               { name: "Tailwind CSS", class: "bg-cyan-700 text-white", icon: "images/logos/tailwind.png" },
             ]}
-            github="https://github.com/chechojgb/AZZU"
+            github="https://github.com/chechojgb/FrontEstadoColas"
             preview={() => setPreview("azzu")} // 👉 acción interna
+            route='/dashboardAZZU'
           />
 
           {/* Los demás proyectos sin preview siguen igual */}
