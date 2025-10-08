@@ -148,7 +148,7 @@ export function AppSidebarBL() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/" prefetch>
+                            <Link href="/#proyectos" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

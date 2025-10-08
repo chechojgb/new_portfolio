@@ -18,9 +18,10 @@ const ListaInventario = ({
     onCategoriaChange,
     onLimpiarFiltros,
     onEstanteriaClick,
-    estanterias
+    estanterias,
+    cerrarLista
 }) => {
-    console.log(productosFiltrados);
+    // console.log(productosFiltrados);
     
     const [expandida, setExpandida] = useState(true);
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
@@ -30,7 +31,7 @@ const ListaInventario = ({
         success: false,
         message: "",
     });
-    console.log(productosFiltrados);
+    // console.log(productosFiltrados);
     
 
     useEffect(() => {
@@ -43,9 +44,18 @@ const ListaInventario = ({
         }
     }, [toast]);
     
+    useEffect(() => {
+        if (cerrarLista) {
+            setExpandida(false);
+        } else {
+            setExpandida(true);
+        }
+    }, [cerrarLista]);
+
     const toggleExpandida = () => {
         setExpandida(!expandida);
     };
+
 
     const openModalUbicacion = (producto) => {
         setProductoSeleccionado(producto);
@@ -59,7 +69,7 @@ const ListaInventario = ({
 
     const handleGuardarUbicacion = async (productoId, ubicacion) => {
         try {
-            console.log('Guardando ubicación:', { productoId, ubicacion });
+            // console.log('Guardando ubicación:', { productoId, ubicacion });
             
             // Preparar datos para enviar
             const datos = {

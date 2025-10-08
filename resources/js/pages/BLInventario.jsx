@@ -67,6 +67,10 @@ const AdvertenciaPantallaPequena = ({ onCerrar }) => (
                         <span className="text-blue-500 mr-2">•</span>
                         Use el zoom del navegador para ajustar la vista
                     </li>
+                    <li className="flex items-start strong">
+                        <span className="text-blue-500 mr-2">•</span>
+                        <strong>Si te encuentras en un dispositivo movil, porfavor dejarlo en modo vertical</strong>
+                    </li>
                 </ul>
                 <button
                     onClick={onCerrar}
@@ -169,6 +173,7 @@ export default function PlanoInventario() {
     const { anchoPantalla } = useTamañoPantalla();
     const [mostrarLista, setMostrarLista] = useState(true);
     const [advertenciaVisible, setAdvertenciaVisible] = useState(false);
+    const [cerrarLista, setCerrarLista] = useState(false);
 
     const {
         filtro,
@@ -192,6 +197,18 @@ export default function PlanoInventario() {
             setAdvertenciaVisible(true);
         }
     }, [anchoPantalla, advertenciaVisible]);
+
+    useEffect(() => {
+        if (anchoPantalla < 1450 && !cerrarLista) {
+            setCerrarLista(true);
+        } else if (anchoPantalla >= 1450 && cerrarLista) {
+            setCerrarLista(false);
+        }
+    }, [anchoPantalla, cerrarLista]);
+
+    // console.log('tamaño:',cerrarLista );
+    
+    
 
     const cerrarAdvertencia = () => {
         setAdvertenciaVisible(false);
@@ -227,7 +244,7 @@ export default function PlanoInventario() {
     }
 
     // Para pantallas menores a 1700px
-    if (anchoPantalla < 1700) {
+    if (anchoPantalla < 1000 && !isMobile) {
         return (
             <AppLayoutBL breadcrumbs={breadcrumbs}>
                 <Head title="Inventario Buttons Lovers" />
@@ -262,6 +279,7 @@ export default function PlanoInventario() {
                                 onLimpiarFiltros={limpiarFiltros}
                                 onEstanteriaClick={handleEstanteriaClick}
                                 estanterias={estanterias}
+                              
                             />
                         </div>
                     )}
@@ -289,6 +307,7 @@ export default function PlanoInventario() {
 
     // Para pantallas mayores o iguales a 1700px - ESTILOS ORIGINALES
     return (
+        
         <AppLayoutBL breadcrumbs={breadcrumbs}>
             <Head title="Inventario Buttons Lovers" />
             
@@ -313,6 +332,7 @@ export default function PlanoInventario() {
                     onLimpiarFiltros={limpiarFiltros}
                     onEstanteriaClick={handleEstanteriaClick}
                     estanterias={estanterias}
+                    cerrarLista={cerrarLista}
                 />
             </div>
         </AppLayoutBL>

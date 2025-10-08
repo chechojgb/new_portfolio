@@ -178,10 +178,10 @@ export default function HeroSection() {
 
           {/* Stats rápidas */}
           <div className="flex gap-8 mt-12 animate-fadeInUp" style={{animationDelay: '0.5s'}}>
-            <div className="text-center group cursor-pointer">
+            {/* <div className="text-center group cursor-pointer">
               <div className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">5+</div>
               <div className="text-sm text-gray-400 group-hover:text-gray-300">Proyectos</div>
-            </div>
+            </div> */}
             <div className="text-center group cursor-pointer">
               <div className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">1+</div>
               <div className="text-sm text-gray-400 group-hover:text-gray-300">Años Exp</div>
