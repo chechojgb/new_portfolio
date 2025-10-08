@@ -100,7 +100,7 @@ export default function TechStack() {
     },
     {
       name: "Asterisk",
-      icon: "/images/logos/asterisk.png",
+      icon: "/images/logos/asterisk.svg",
       color: "text-green-400",
       bgColor: "bg-green-500/10",
       borderColor: "border-green-400/30",

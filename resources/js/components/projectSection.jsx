@@ -182,8 +182,8 @@ const ProjectsSection = () => {
             image="images/projects/ButtonLovers.png"
             himagelg="70"
             himagexl="auto"
-            title="Inventario de Botones"
-            description="Sistema de gestión para una empresa de botones. Incluye control de inventario, CRUD de productos, seguimiento de movimientos, y un dashboard con estadísticas."
+            title="B&A (Empresa creadora de diseños de botones) "
+            description="Sistema de gestión para una empresa de botones. Incluye control de inventario, CRUD de productos, seguimiento de movimientos, analisis de datos y un dashboard con estadísticas."
             tags={[
               { name: "Laravel", class: "bg-red-500/20 text-red-400 border border-red-400/30", icon: "images/logos/laravel.svg" },
               { name: "React", class: "bg-blue-500/20 text-blue-400 border border-blue-400/30", icon: "images/logos/react.png" },
@@ -204,7 +204,7 @@ const ProjectsSection = () => {
               { name: "Laravel", class: "bg-red-500/20 text-red-400 border border-red-400/30", icon: "images/logos/laravel.svg" },
               { name: "React", class: "bg-blue-500/20 text-blue-400 border border-blue-400/30", icon: "images/logos/react.png" },
               { name: "Tailwind CSS", class: "bg-cyan-500/20 text-cyan-400 border border-cyan-400/30", icon: "images/logos/tailwind.png" },
-              { name: "Asterisk", class: "bg-cyan-500/20 text-cyan-400 border border-cyan-400/30", icon: "images/logos/asterisk.png" },
+              { name: "Asterisk", class: "bg-cyan-500/20 text-cyan-400 border border-cyan-400/30", icon: "images/logos/asterisk.svg" },
             ]}
             github="https://github.com/chechojgb/FrontEstadoColas"
             preview={() => setPreview("azzu")}
