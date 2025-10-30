@@ -118,7 +118,7 @@ export default function GlobalStars() {
             
             const fragment = document.createDocumentFragment();
             
-            for (let i = 0; i < 25; i++) {
+            for (let i = 0; i < 32; i++) {
                 const star = document.createElement('div');
                 const size = starSizes[Math.floor(Math.random() * starSizes.length)];
                 const floating = shouldFloat[Math.floor(Math.random() * shouldFloat.length)];
