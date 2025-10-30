@@ -110,7 +110,7 @@ export default function AlertasRecientesWidget() {
           borderColor: chartColors.border,
           tension: 0.4,
           pointBackgroundColor: chartColors.border,
-          pointBorderColor: '#8d0000ff',
+          pointBorderColor: '#fff',
           pointBorderWidth: 2,
         },
       ],

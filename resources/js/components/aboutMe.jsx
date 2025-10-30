@@ -15,101 +15,30 @@ export default function AboutMe() {
       { threshold: 0.3 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
-
-  // Efecto de estrellas fugaces
-  useEffect(() => {
-  const createShootingStar = () => {
-    const star = document.createElement('div');
-    star.className = 'shooting-star';
-    
-    // Posición inicial aleatoria en los bordes
-    const startFromLeft = Math.random() > 0.5;
-    const startFromTop = Math.random() > 0.5;
-    
-    const startX = startFromLeft ? -5 : 105;
-    const startY = startFromTop ? Math.random() * 30 : Math.random() * 30 + 70;
-    
-    // Dirección y distancia más realistas
-    const targetX = startFromLeft ? 110 : -10;
-    const targetY = startY + (Math.random() * 40 - 20);
-    
-    const distanceX = targetX - startX;
-    const distanceY = targetY - startY;
-    const angle = Math.atan2(distanceY, distanceX) * (180 / Math.PI);
-    
-    star.style.setProperty('--startX', startX);
-    star.style.setProperty('--startY', startY);
-    star.style.setProperty('--distanceX', distanceX);
-    star.style.setProperty('--distanceY', distanceY);
-    star.style.setProperty('--angle', angle);
-    star.style.animationDelay = `${Math.random() * 2}s`;
-    star.style.animationDuration = `${2 + Math.random() * 2}s`;
-    
-    document.getElementById('shooting-stars-container')?.appendChild(star);
-    
-    setTimeout(() => {
-      star.remove();
-    }, 5000);
-  };
-
-  // Crear estrellas estáticas de diferentes tamaños
-  const createStaticStars = () => {
-    const starsContainer = document.getElementById('shooting-stars-container');
-    if (!starsContainer) return;
-
-    const starSizes = ['small', 'medium', 'medium', 'large'];
-    const shouldFloat = [true, false, true, false, true];
-    
-    for (let i = 0; i < 40; i++) {
-      const star = document.createElement('div');
-      const size = starSizes[Math.floor(Math.random() * starSizes.length)];
-      const floating = shouldFloat[Math.floor(Math.random() * shouldFloat.length)];
-      
-      star.className = `static-star ${size} ${floating ? 'float' : ''}`;
-      star.style.left = `${Math.random() * 100}%`;
-      star.style.top = `${Math.random() * 100}%`;
-      star.style.animationDelay = `${Math.random() * 5}s`;
-      star.style.animationDuration = `${3 + Math.random() * 4}s`;
-      
-      starsContainer.appendChild(star);
-    }
-  };
-
-  const interval = setInterval(createShootingStar, 1500);
-  createStaticStars();
-
-  return () => {
-    clearInterval(interval);
-    const container = document.getElementById('shooting-stars-container');
-    if (container) {
-      container.innerHTML = '';
-    }
-  };
-}, []);
 
   return (
     <section
       id="sobre-mi"
       ref={sectionRef}
-      className="relative bg-[#020617] text-white py-28 px-6 lg:px-8 overflow-hidden"
+      className="relative bg-[#020617] text-white py-28 px-6 lg:px-8 overflow-hidden z-20"
     >
-      {/* Fondo con estrellas fugaces */}
+      {/* Fondo con blurs decorativos (sin estrellas) */}
       <div className="absolute inset-0 overflow-hidden">
-        <div id="shooting-stars-container" className="absolute inset-0"></div>
-        
-        {/* Blurs decorativos animados */}
         <div className="absolute hidden lg:block -top-20 -left-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
-        <div className="absolute hidden lg:block top-40 -right-20 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay: '2s'}}></div>
-        <div className="absolute hidden lg:block bottom-20 left-1/3 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay: '4s'}}></div>
+        <div
+          className="absolute hidden lg:block top-40 -right-20 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl animate-pulse-slow"
+          style={{ animationDelay: "2s" }}
+        ></div>
+        <div
+          className="absolute hidden lg:block bottom-20 left-1/3 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow"
+          style={{ animationDelay: "4s" }}
+        ></div>
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,auto)_1fr] gap-20 items-center relative z-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,auto)_1fr] gap-20 items-center relative z-20">
         
         {/* Imagen con mejoras interactivas */}
         <div className="relative flex justify-center lg:justify-start sm:pl-6 md:px-12">
@@ -238,7 +167,7 @@ export default function AboutMe() {
             </div>
           </div>
 
-          {/* CTA sutil */}
+          {/* CTA sutil (comentado) */}
           {/* <div className={`flex gap-4 pt-6 ${isVisible ? 'animate-fadeInUp' : 'opacity-0'}`} style={{animationDelay: '0.9s'}}>
             <a
               href="#proyectos"
@@ -265,8 +194,6 @@ export default function AboutMe() {
         </div>
         <span className="text-gray-400 text-sm">Skills</span>
       </div>
-
-
     </section>
   );
 }
