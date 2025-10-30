@@ -131,33 +131,17 @@ export default function TechStack() {
     <section
       id="tech-stack"
       ref={sectionRef}
-      className="relative bg-[#020617] py-28 px-6 sm:px-8 text-white overflow-hidden"
+      className="relative bg-[#020617] py-28 px-6 sm:px-8 text-white overflow-hidden z-20"
     >
-      {/* Fondo con efectos espaciales - Mismo color que las otras secciones */}
+      {/* Fondo con efectos decorativos - Sin partículas de estrellas */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Efecto de partículas sutiles */}
-        <div className="absolute inset-0">
-          {[...Array(15)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-blue-400/20 rounded-full animate-pulse"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${3 + Math.random() * 4}s`
-              }}
-            />
-          ))}
-        </div>
-        
         {/* Blurs decorativos animados */}
         <div className="absolute hidden lg:block -top-20 -left-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
         <div className="absolute hidden lg:block top-40 -right-20 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay: '2s'}}></div>
         <div className="absolute hidden lg:block bottom-20 left-1/3 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay: '4s'}}></div>
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
           
           {/* Columna izquierda - Texto */}
@@ -294,8 +278,6 @@ export default function TechStack() {
         </div>
         <span className="text-gray-400 text-sm">Mis proyectos</span>
       </div>
-
-
     </section>
   );
 }

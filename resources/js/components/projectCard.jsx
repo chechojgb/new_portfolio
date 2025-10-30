@@ -26,7 +26,7 @@ const ProjectCard = ({
       }`}></div>
 
       {/* Imagen + ventana navegador */}
-      <div className="w-full md:w-1/2 relative z-10">
+      <div className="w-full md:w-1/2 relative z-30">
         <div className="relative w-full h-64 md:h-96 lg:h-104 overflow-hidden rounded-xl shadow-2xl group-hover:scale-[1.02] transition-all duration-500 border border-gray-700/50 bg-gradient-to-br from-gray-900 to-gray-800 sm:h-104 min-h-[310px]">
           
           {/* Efecto de reflexión en el escritorio */}
